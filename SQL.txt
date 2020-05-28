@@ -1,0 +1,51 @@
+DROP DATABASE activity;
+CREATE DATABASE activity;
+CREATE TABLE Booking (
+    bookingID CHAR(6) NOT NULL,
+    bookingURL varchar(225) NOT NULL,
+    bookingStartDate DATETIME default "2020-01-01 00:00:00",
+    bookingEndDate DATETIME default "2020-01-01 00:00:00",
+    primary key(bookingID)
+)default charset=utf8;
+
+
+CREATE TABLE Prices (
+    bookingID CHAR(6) NOT NULL,
+    price int default 0,
+    primary key(bookingID),
+    FOREIGN KEY (bookingID) REFERENCES Booking(bookingID)
+)default charset=utf8;
+
+CREATE TABLE Address (
+    addressID CHAR(6) NOT NULL,
+    eastLongitude FLOAT(6) DEFAULT 0,
+    northLatitude FLOAT(6) DEFAULT 0,
+    city CHAR(3) NOT NULL,
+    district CHAR(3) DEFAULT "無",
+    fullAddress VARCHAR(100) DEFAULT "noAddress",
+    primary key(addressID)
+)default charset=utf8;
+
+CREATE TABLE ActivityMain (
+    activityID CHAR(6) not null,
+    name varchar(100) not null,
+    activityType varchar(20) default "noType",
+    activityPicture varchar(255) default "noPicture",
+    activityURL varchar(255) NOT NULL,
+    opentime TIME default "00:00:00",
+    closeTime Time default "24:00:00",
+    startDate date not null,
+    endDate date not null,
+    bookingID char(6) default "0",
+    addressID char(6) default "0",
+    primary key(activityID),
+    FOREIGN KEY (addressID) REFERENCES Address(addressID),
+    FOREIGN KEY (bookingID) REFERENCES 	Booking(bookingID)
+)default charset=utf8;
+
+insert into Booking (bookingID, bookingURL) values ("0", "noBooking");
+insert into Address (addressID, city, district) values("0", "無", "無");
+Insert into ActivityMain (activityID, name, activityURL, startDate, endDate, bookingID, addressID) values ("1", "test", "HTTP", "2020-01-01", "2020-01-01", "0", "0");
+select * from ActivityMain;
+select * from Booking;
+select * from Address;
